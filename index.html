@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Kalli Penne ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --rose: #ff8fa3;
+            --cream: #fff5f6;
+            --text: #4a4e69;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--cream);
+            font-family: 'Quicksand', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            z-index: 10;
+        }
+
+        /* Typewriter text styling */
+        #typewriter {
+            font-size: 1.6rem;
+            color: var(--text);
+            font-weight: 700;
+            min-height: 100px;
+            line-height: 1.4;
+            margin-bottom: 30px;
+        }
+
+        /* Button Styling */
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            min-height: 150px;
+        }
+
+        button {
+            padding: 16px 32px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        #yes-btn {
+            background-color: var(--rose);
+            color: white;
+            z-index: 100;
+        }
+
+        #no-btn {
+            background-color: #ffffff;
+            color: #999;
+        }
+
+        /* Success Scene */
+        #success-screen {
+            display: none;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .gif-container {
+            width: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(255, 143, 163, 0.3);
+            margin-bottom: 25px;
+            background: white;
+            padding: 10px;
+        }
+
+        .gif-container img {
+            width: 100%;
+            border-radius: 15px;
+            display: block;
+        }
+
+        #final-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.2rem;
+            color: var(--rose);
+            line-height: 1.2;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Floating Hearts Animation */
+        .heart {
+            position: absolute;
+            pointer-events: none;
+            animation: floatUp 3s linear forwards;
+            z-index: 5;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="entry-screen" class="container">
+        <div id="typewriter"></div>
+        <div class="btn-group">
+            <button id="yes-btn" onclick="celebrate()">YES</button>
+            <button id="no-btn" onclick="shrinkNo()" onmouseover="shrinkNo()">NO</button>
+        </div>
+    </div>
+
+    <div id="success-screen" class="container">
+        <div class="gif-container">
+            <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNXpuemE1ZTh0ZmFobGoyNzVhcHAzazN0eGJudjg5YXBtNTcyaGNiMSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/CEM16vbLBI2Y78lT9k/giphy.gif" alt="Cute Bear">
+        </div>
+        <div id="final-text"></div>
+    </div>
+
+    <script>
+        const qText = "Q) Do you still love rajuttan, Be honest.";
+        const fText = "I knew you were obsessed with rajuttan, kalli penne!";
+        
+        let i = 0;
+        function typeWriter(text, elementId, speed, callback) {
+            if (i < text.length) {
+                document.getElementById(elementId).innerHTML += text.charAt(i);
+                i++;
+                setTimeout(() => typeWriter(text, elementId, speed, callback), speed);
+            } else if (callback) {
+                callback();
+            }
+        }
+
+        // Start Question
+        window.onload = () => typeWriter(qText, "typewriter", 60);
+
+        let noScale = 1;
+        let yesScale = 1;
+
+        function shrinkNo() {
+            const noBtn = document.getElementById('no-btn');
+            const yesBtn = document.getElementById('yes-btn');
+            
+            noScale -= 0.15;
+            yesScale += 0.2; // Yes grows faster to fill the space
+
+            if (noScale <= 0.2) {
+                noBtn.style.display = 'none';
+            } else {
+                noBtn.style.transform = `scale(${noScale})`;
+            }
+            
+            yesBtn.style.transform = `scale(${yesScale})`;
+            spawnHeart();
+        }
+
+        function celebrate() {
+            document.getElementById('entry-screen').style.display = 'none';
+            document.getElementById('success-screen').style.display = 'block';
+            
+            // Reset counter for final text
+            i = 0;
+            typeWriter(fText, "final-text", 50);
+            
+            // Shower of hearts
+            setInterval(spawnHeart, 200);
+        }
+
+        function spawnHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = ['❤️', '💖', '🌸', '✨', '🌹'][Math.floor(Math.random() * 5)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = '100vh';
+            heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 3000);
+        }
+    </script>
+</body>
+</html>
