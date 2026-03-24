@@ -3,26 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For My Kalli Penne ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
+    <title>For You</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --rose: #ff8fa3;
-            --cream: #fff5f6;
-            --text: #4a4e69;
-        }
-
-        * {
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
+            --accent: #ff4d6d;
+            --bg: #fffbfb;
+            --text-main: #2d3436;
         }
 
         body {
             margin: 0;
-            padding: 0;
-            background-color: var(--cream);
-            font-family: 'Quicksand', sans-serif;
+            background-color: var(--bg);
+            font-family: 'Space Grotesk', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -32,98 +26,99 @@
         }
 
         .container {
-            width: 90%;
+            width: 85%;
             max-width: 400px;
-            padding: 20px;
-            z-index: 10;
+            position: relative;
         }
 
-        /* Typewriter text styling */
         #typewriter {
-            font-size: 1.6rem;
-            color: var(--text);
+            font-size: 1.4rem;
             font-weight: 700;
-            min-height: 100px;
-            line-height: 1.4;
-            margin-bottom: 30px;
+            color: var(--text-main);
+            min-height: 80px;
+            margin-bottom: 2rem;
+            letter-spacing: -0.5px;
         }
 
-        /* Button Styling */
         .btn-group {
+            position: relative;
+            height: 150px;
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 20px;
-            min-height: 150px;
         }
 
         button {
-            padding: 16px 32px;
+            padding: 18px 35px;
+            border-radius: 12px; /* Square-ish modern corners */
             border: none;
-            border-radius: 50px;
-            font-size: 1.1rem;
+            font-family: 'Space Grotesk', sans-serif;
             font-weight: 700;
+            font-size: 1rem;
             cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        #yes-btn {
-            background-color: var(--rose);
-            color: white;
-            z-index: 100;
+        #yes-btn { background: var(--accent); color: white; box-shadow: 0 10px 20px rgba(255, 77, 109, 0.3); }
+        #no-btn { background: #f1f2f6; color: #a4b0be; }
+
+        /* Success Screen */
+        #success-screen { display: none; flex-direction: column; align-items: center; }
+
+        .image-wrapper {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            margin-bottom: 30px;
         }
 
-        #no-btn {
-            background-color: #ffffff;
-            color: #999;
-        }
-
-        /* Success Scene */
-        #success-screen {
-            display: none;
-            animation: fadeIn 1s ease-in;
-        }
-
-        .gif-container {
+        .image-wrapper img {
             width: 100%;
+            height: 100%;
+            object-fit: cover;
             border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(255, 143, 163, 0.3);
-            margin-bottom: 25px;
-            background: white;
-            padding: 10px;
-        }
-
-        .gif-container img {
-            width: 100%;
-            border-radius: 15px;
             display: block;
         }
 
-        #final-text {
-            font-family: 'Dancing Script', cursive;
-            font-size: 2.2rem;
-            color: var(--rose);
-            line-height: 1.2;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Floating Hearts Animation */
-        .heart {
+        /* The Animated Heart Border */
+        .heart-svg {
             position: absolute;
+            top: -10px;
+            left: -10px;
+            width: 300px;
+            height: 300px;
+            fill: none;
+            stroke: var(--accent);
+            stroke-width: 4;
+            stroke-linecap: round;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
             pointer-events: none;
-            animation: floatUp 3s linear forwards;
-            z-index: 5;
         }
 
-        @keyframes floatUp {
-            0% { transform: translateY(0) scale(1); opacity: 1; }
-            100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
+        @keyframes drawHeart {
+            to { stroke-dashoffset: 0; }
+        }
+
+        #final-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-top: 10px;
+            padding: 0 10px;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 1.5rem;
+            pointer-events: none;
+            animation: float 4s linear forwards;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0); opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
         }
     </style>
 </head>
@@ -133,13 +128,16 @@
         <div id="typewriter"></div>
         <div class="btn-group">
             <button id="yes-btn" onclick="celebrate()">YES</button>
-            <button id="no-btn" onclick="shrinkNo()" onmouseover="shrinkNo()">NO</button>
+            <button id="no-btn" onclick="shrinkNo()">NO</button>
         </div>
     </div>
 
     <div id="success-screen" class="container">
-        <div class="gif-container">
-            <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNXpuemE1ZTh0ZmFobGoyNzVhcHAzazN0eGJudjg5YXBtNTcyaGNiMSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/CEM16vbLBI2Y78lT9k/giphy.gif" alt="Cute Bear">
+        <div class="image-wrapper">
+            <svg class="heart-svg" id="heart-path" viewBox="0 0 500 500">
+                <path d="M250,130 C200,50 50,100 50,230 C50,350 250,470 250,470 C250,470 450,350 450,230 C450,100 300,50 250,130 Z" />
+            </svg>
+            <img src="https://scontent.ftrv3-1.fna.fbcdn.net/v/t1.15752-9/630520134_1393992945833963_3343584208913281510_n.png?stp=dst-png_s960x960&_nc_cat=111&ccb=1-7&_nc_sid=9f807c&_nc_ohc=DID1WS5LOZsQ7kNvwEPF4j9&_nc_oc=Adox_YGgG0FixkqO2IzUd_nIfStqI-HVd2EnU2l8KKyWiS41z_WnE2V_Al0XlP7boiA&_nc_zt=23&_nc_ht=scontent.ftrv3-1.fna&_nc_ss=7a32e&oh=03_Q7cD4wGGgX0GQipwcuv5UMcWouQ7rdFz6QZLTZhc_NnQRFtLeg&oe=69E99A48" alt="Us">
         </div>
         <div id="final-text"></div>
     </div>
@@ -147,20 +145,19 @@
     <script>
         const qText = "Q) Do you still love rajuttan, Be honest.";
         const fText = "I knew you were obsessed with rajuttan, kalli penne!";
-        
-        let i = 0;
-        function typeWriter(text, elementId, speed, callback) {
-            if (i < text.length) {
-                document.getElementById(elementId).innerHTML += text.charAt(i);
-                i++;
-                setTimeout(() => typeWriter(text, elementId, speed, callback), speed);
+        let charIndex = 0;
+
+        function type(text, elementId, speed, callback) {
+            if (charIndex < text.length) {
+                document.getElementById(elementId).innerHTML += text.charAt(charIndex);
+                charIndex++;
+                setTimeout(() => type(text, elementId, speed, callback), speed);
             } else if (callback) {
                 callback();
             }
         }
 
-        // Start Question
-        window.onload = () => typeWriter(qText, "typewriter", 60);
+        window.onload = () => type(qText, "typewriter", 60);
 
         let noScale = 1;
         let yesScale = 1;
@@ -168,41 +165,40 @@
         function shrinkNo() {
             const noBtn = document.getElementById('no-btn');
             const yesBtn = document.getElementById('yes-btn');
-            
             noScale -= 0.15;
-            yesScale += 0.2; // Yes grows faster to fill the space
-
+            yesScale += 0.25;
             if (noScale <= 0.2) {
                 noBtn.style.display = 'none';
             } else {
                 noBtn.style.transform = `scale(${noScale})`;
             }
-            
             yesBtn.style.transform = `scale(${yesScale})`;
             spawnHeart();
         }
 
         function celebrate() {
             document.getElementById('entry-screen').style.display = 'none';
-            document.getElementById('success-screen').style.display = 'block';
+            document.getElementById('success-screen').style.display = 'flex';
             
-            // Reset counter for final text
-            i = 0;
-            typeWriter(fText, "final-text", 50);
+            charIndex = 0;
+            // Type the text first
+            type(fText, "final-text", 50, () => {
+                // After typing finishes, draw the heart slowly
+                const heart = document.getElementById('heart-path');
+                heart.style.animation = "drawHeart 2.5s ease-out forwards";
+            });
             
-            // Shower of hearts
-            setInterval(spawnHeart, 200);
+            setInterval(spawnHeart, 300);
         }
 
         function spawnHeart() {
-            const heart = document.createElement('div');
-            heart.className = 'heart';
-            heart.innerHTML = ['❤️', '💖', '🌸', '✨', '🌹'][Math.floor(Math.random() * 5)];
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.top = '100vh';
-            heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
-            document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 3000);
+            const h = document.createElement('div');
+            h.className = 'floating-heart';
+            h.innerHTML = ['❤️', '✨', '💖'][Math.floor(Math.random() * 3)];
+            h.style.left = Math.random() * 100 + 'vw';
+            h.style.top = '100vh';
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 4000);
         }
     </script>
 </body>
